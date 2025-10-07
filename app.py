@@ -1,14 +1,14 @@
-# app.py - Versión Final para Despliegue
+# app.py - Versión Final para Despliegue en Cuentas Gratuitas
 
-import os # Importamos la librería 'os' para acceder a variables de entorno
 from flask import Flask, render_template, request
 import requests
+import config # Importamos nuestro nuevo archivo de configuración
 
 # --- CONFIGURACIÓN INICIAL ---
 app = Flask(__name__)
 
-# La clave de API se lee de una variable de entorno del servidor
-API_KEY = os.environ.get('TMDB_API_KEY') 
+# La clave de API se lee ahora desde el archivo config.py
+API_KEY = config.API_KEY 
 
 # URLs base de la API de TMDB
 SEARCH_URL = "https://api.themoviedb.org/3/search/movie"
@@ -72,5 +72,3 @@ def home():
                            recommendations=recommendations_list,
                            error=error,
                            searched=request.method == 'POST')
-
-# No necesitamos el bloque if __name__ == "__main__" para el despliegue

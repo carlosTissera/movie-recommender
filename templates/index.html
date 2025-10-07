@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendador de Películas</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #14181c; color: #e1e8ed; max-width: 800px; margin: 40px auto; padding: 20px; }
+        h1, h2 { color: #1d9bf0; border-bottom: 1px solid #38444d; padding-bottom: 10px; }
+        form { margin-bottom: 30px; }
+        input[type="text"] { width: 70%; padding: 12px; border-radius: 5px; border: 1px solid #38444d; background: #202b38; color: #fff; font-size: 16px; }
+        input[type="submit"] { padding: 12px 22px; background: #1d9bf0; color: #fff; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-left: 10px; }
+        ul { list-style: none; padding: 0; }
+        li { background: #202b38; margin: 15px 0; padding: 12px; border-radius: 8px; display: flex; align-items: center; }
+        p { line-height: 1.6; }
+        .error-box { color: #ff4d4d; background: #4d212c; padding: 10px; border-radius: 5px; border-left: 3px solid #ff4d4d;}
+    </style>
+</head>
+<body>
+    <h1>🎬 Recomendador de Películas Personalizado</h1>
+    <form action="/" method="post">
+        <label for="movie_title">Escribe una película que te guste:</label><br><br>
+        <input type="text" id="movie_title" name="movie_title" required>
+        <input type="submit" value="Obtener Recomendaciones">
+    </form>
+
+    {% if error %}
+        <div class="error-box"><b>Error:</b> {{ error }}</div>
+    {% endif %}
+
+    {% if searched and not error %}
+        <h2>Resultados para "{{ movie_title }}"</h2>
+        {% if recommendations %}
+            <p>Aquí tienes algunas películas que podrían gustarte:</p>
+            <ul>
+                {% for movie_data in recommendations %}
+                    <li>
+                        {% if movie_data.poster_url %}
+                            <img src="{{ movie_data.poster_url }}" alt="Póster de {{ movie_data.title }}" width="100" style="vertical-align: middle; margin-right: 15px; border-radius: 5px;">
+                        {% endif %}
+                        <span style="font-size: 1.2em; font-weight: bold;">{{ movie_data.title }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No se encontraron recomendaciones para esta película.</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
